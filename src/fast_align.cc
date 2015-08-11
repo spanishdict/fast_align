@@ -144,9 +144,10 @@ void UpdateFromPairs(const vector<string>& lines, const int lc, const int iter,
     ostringstream oss; // collect output in last iteration
     vector<double> probs(src.size() + 1);
     bool first_al = true;  // used when printing alignments
+    double pscore = 1;
     for (unsigned j = 0; j < trg.size(); ++j) {
-      const unsigned& f_j = trg[j];
       double sum = 0;
+      const unsigned& f_j = trg[j];
       double prob_a_i = 1.0 / (src.size() + use_null);  // uniform (model 1)
       if (use_null) {
         if (favor_diagonal)
@@ -200,10 +201,11 @@ void UpdateFromPairs(const vector<string>& lines, const int lc, const int iter,
           emp_feat_ += DiagonalAlignment::Feature(j, i, trg.size(), src.size()) * p;
         }
       }
+      pscore *= sum;
       likelihood_ += log(sum);
     }
     if (final_iteration) {
-      oss << endl;
+      oss << " /// " << pscore << endl;
       (*outputs)[line_idx] = oss.str();
     }
   }
