@@ -45,6 +45,11 @@ def doLang(i, src0, trg0, alignments, d, score, outF):
 	outF.write(trg0 + '\n')
 	outF.write(alignSent(src, trgLn, alignments, d) + '\n')
 
+def doErr(outF):
+	outF.write('# Sentence pair ERR\n')
+	outF.write('# Sentence pair ERR\n')
+	outF.write('# Sentence pair ERR\n')
+
 test = ""
 i = 0
 for c, a, senes, sesen in izip(corpus, aligns, scoresENES, scoresESEN):
@@ -53,6 +58,8 @@ for c, a, senes, sesen in izip(corpus, aligns, scoresENES, scoresESEN):
 		print 'line ' + str(i)
 	aa = a[:-1]
 	if len(aa) < 1:
+		doErr(outENES)
+		doErr(outESEN)
 		continue
 	alignments = aa.split(' ')
 	scoreENES = senes[:-1].split(' /// ')[1]
